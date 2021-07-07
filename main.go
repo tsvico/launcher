@@ -8,7 +8,6 @@ import (
 	"io/ioutil"
 	"os"
 	"os/exec"
-	"syscall"
 )
 
 // 运行时隐藏自己的cmd
@@ -34,7 +33,6 @@ func main() {
 	JsonParse.LoadConfig("launcher.json", &v)
 	// 获取去除第一个的配置参数
 	args := os.Args[1:]
-	// fmt.Println(args)
 	_, err := os.Stat(".lock.loop")
 	if err == nil || os.IsExist(err) {
 		file, _ = os.OpenFile("README.Use.txt", os.O_CREATE|os.O_WRONLY, 0666)
@@ -48,18 +46,16 @@ func main() {
 	// 将命令行参数 合并到配置文件的参数后面
 	cmd := exec.Command(v.Target, append(v.Params, args...)...)
 	cmd.Dir = v.WorkDir
-	cmd.SysProcAttr = &syscall.SysProcAttr{
-		HideWindow:    true,
-		CreationFlags: syscall.CREATE_NEW_PROCESS_GROUP,
-	}
-	data, err := cmd.Output()
-	if err != nil {
-		fmt.Println(err)
-	}
-	fmt.Println(string(data))
+	cmd.Env = os.Environ()
+	// cmd.SysProcAttr = &syscall.SysProcAttr{
+	// 	HideWindow:    true,
+	// 	CreationFlags: syscall.CREATE_NEW_PROCESS_GROUP,
+	// }
+	// 重定向子进程的错误输出
+	cmd.Stderr = os.Stderr
 	cmd.Start()
-	cmd.Wait()
-
+	// cmd.Wait()
+	fmt.Printf("[PID] %d running...\n", cmd.Process.Pid)
 	file.Close()
 	os.Remove(".lock.loop")
 }
