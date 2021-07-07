@@ -1,4 +1,9 @@
-[TOC]
+- [一个 go 编写的启动器](#---go-------)
+  - [改名](#--)
+  - [编译](#--)
+  - [配置](#--)
+
+<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
 
 ## 一个 go 编写的启动器
 
@@ -10,26 +15,24 @@
 
 执行权限配置`ManifestPath`
 
-  > 举例添加管理员权限
-  >
-  > ManifestPath: "nac.mainfest"
-  >
-  > nac.mainfest中内容为
-  >
-  > ```xml
-  > <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-  > <assembly xmlns="urn:schemas-microsoft-com:asm.v1" manifestVersion="1.0">
-  > <trustInfo xmlns="urn:schemas-microsoft-com:asm.v3">
-  >  <security>
-  >      <requestedPrivileges>
-  >          <requestedExecutionLevel level="requireAdministrator" uiAccess="false"/>
-  >      </requestedPrivileges>
-  >  </security>
-  > </trustInfo>
-  > </assembly>
-  > ```
-
-
+> 举例添加管理员权限
+>
+> ManifestPath: "nac.mainfest"
+>
+> nac.mainfest 中内容为
+>
+> ```xml
+> <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+> <assembly xmlns="urn:schemas-microsoft-com:asm.v1" manifestVersion="1.0">
+> <trustInfo xmlns="urn:schemas-microsoft-com:asm.v3">
+>  <security>
+>      <requestedPrivileges>
+>          <requestedExecutionLevel level="requireAdministrator" uiAccess="false"/>
+>      </requestedPrivileges>
+>  </security>
+> </trustInfo>
+> </assembly>
+> ```
 
 ### 编译
 
