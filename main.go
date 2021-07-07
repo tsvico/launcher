@@ -2,6 +2,7 @@
 package main
 
 import (
+	_ "embed"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -24,10 +25,13 @@ var (
 	file *os.File
 )
 
+//go:embed launcher.json
+var launchstr string
+
 func main() {
-	JsonParse := NewJsonStruct()
+	JsonParse := NewJsonConfig()
 	v := LaunchConfig{}
-	JsonParse.Load("launcher.json", &v)
+	JsonParse.LoadConfig("launcher.json", &v)
 	// 获取去除第一个的配置参数
 	args := os.Args[1:]
 	// fmt.Println(args)
@@ -66,15 +70,27 @@ func main() {
 type JsonStruct struct {
 }
 
-func NewJsonStruct() *JsonStruct {
+func NewJsonConfig() *JsonStruct {
 	return &JsonStruct{}
 }
 
-func (jst *JsonStruct) Load(filename string, v interface{}) {
-	//ReadFile函数会读取文件的全部内容，并将结果以[]byte类型返回
-	data, err := ioutil.ReadFile(filename)
-	if err != nil {
-		return
+/**
+* 加载配置文件
+ */
+func (jst *JsonStruct) LoadConfig(filename string, v interface{}) {
+	_, err := os.Stat(filename)
+	var data []byte
+	if err == nil {
+		// ReadFile函数会读取文件的全部内容，并将结果以[]byte类型返回
+		data, err = ioutil.ReadFile(filename)
+		if err != nil {
+			return
+		}
+	}
+
+	// 外部配置文件不存在
+	if os.IsNotExist(err) {
+		data = []byte(launchstr)
 	}
 
 	//读取的数据为json格式，需要进行解码

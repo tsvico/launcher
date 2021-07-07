@@ -43,6 +43,8 @@ go generate
 go build  -ldflags="-H windowsgui"
 ```
 
+> launcher.json 默认会打包进生成的二进制文件，如果想使用外部配置文件，需要手动复制launcher.json到程序所在目录，外部的launcher.json优先级较高
+
 ### 配置
 
 启动配置依赖于`launcher.json`
