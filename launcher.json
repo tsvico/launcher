@@ -1,0 +1,5 @@
+{
+  "target": "ping",
+  "workDir": ".",
+  "params": ["www.baidu.com", "-n", "2"]
+}
